@@ -1,0 +1,18 @@
+@prefix: webpack;
+
+.@{prefix} {
+  height: 100px;
+  width: 100px;
+  background: orange;
+  transform: rotateX(50%);
+  animation: infinite 10s rotate;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
