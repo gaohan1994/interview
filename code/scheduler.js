@@ -1,3 +1,12 @@
+/**
+ * Question:
+ * 代码题：Promise 请求并发限制
+ *  
+ * refer:
+ * https://mp.weixin.qq.com/s/MNw8SBvQLJ7WtNPROEL9og
+ * https://juejin.cn/post/7107078681482231821
+ */
+
 
 {
   // 题目1 编写 Scheduler
@@ -110,11 +119,64 @@
       .then(() => console.log(order))
   }
 
-  addTask(4000, '1')
-  addTask(3500, '2')
-  addTask(4000, '3')
-  addTask(3000, '4')
-  addTask(3000, '4')
-  addTask(3000, '4')
-  addTask(3000, '4')
+  // addTask(4000, '1')
+  // addTask(3500, '2')
 } 
+
+
+{
+  // 题目2 编写 asyncPool 
+  
+  // function asyncPool () {
+  //   ...
+  // }
+  
+  // const timeout = (i) => {
+  //   console.log('开始', i);
+  //   return new Promise((resolve) => setTimeout(() => {
+  //     resolve(i);
+  //     console.log('结束', i);
+  //   }, i));
+  // };
+  
+  
+  // asyncPool(2, [5000, 4000, 3000, 2000], timeout).then(res => {
+  //   console.log(res);
+  // });
+  
+  async function asyncPool (maxParallelJobNumber, pool, fn) {
+    const result = [];
+    const executeingPromise = [];
+    
+    for (let index = 0; index < pool.length; index++) {
+      const promise = Promise.resolve(fn(pool[index]));
+      result.push(promise)
+      
+      if (maxParallelJobNumber < pool.length) {
+        const executePromise = promise.then(() => 
+          executeingPromise.splice(executeingPromise.indexOf(promise), 1))
+
+        executeingPromise.push(executePromise);
+
+        if (executeingPromise.length >= maxParallelJobNumber) {
+          await Promise.race(executeingPromise);
+        }
+      }
+    }
+
+    return Promise.all(result);
+  } 
+  
+  const timeout = (i) => {
+    console.log('开始', i);
+    return new Promise((resolve) => setTimeout(() => {
+      resolve(i);
+      console.log('结束', i);
+    }, i));
+  };
+  
+  
+  asyncPool(2, [1000, 2000, 1000, 2000], timeout).then(res => {
+    console.log(res);
+  });
+}
