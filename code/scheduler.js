@@ -33,6 +33,64 @@
   //3.5秒打印2
   //3进入队列，到7.5秒打印3 
   //...
+
+
+  {
+    class Scheduler {
+      maxParallelJobNumber;
+
+      workingJobNumber = 0;
+
+      waitingJobs = [];
+
+      constructor (maxParallelJobNumber = 2) {
+        this.maxParallelJobNumber = maxParallelJobNumber;
+      }
+
+      add = (executer) => {
+        return new Promise((resolve) => {
+          const job = { executer, resolve, }
+
+          if (this.workingJobNumber < this.maxParallelJobNumber) {
+            this.workingJobNumber += 1;
+            this.runJob(job);
+          } else {
+            this.waitingJobs.push(job);
+          }
+        });
+      }
+
+      runJob = (job) => {
+        const {executer, resolve} = job;
+
+        executer().then(() => {
+          resolve();
+          this.workingJobNumber -= 1;
+          if (this.waitingJobs.length > 0 && this.workingJobNumber < this.maxParallelJobNumber) {
+            this.runJob(this.waitingJobs.shift());
+          }
+        })
+      }
+    }
+
+
+    const timeout = (time) => new Promise(resolve => {
+      setTimeout(resolve, time)
+    })
+
+    const scheduler = new Scheduler()
+
+    const addTask = (time, order) => {
+      scheduler
+        .add(() => timeout(time))
+        .then(() => console.log(order))
+    }
+
+    addTask(1000, '1')
+    addTask(3500, '2')
+    addTask(1000, '3')
+    addTask(3500, '4')
+  }
  
 
   class Scheduler {
@@ -176,7 +234,7 @@
   };
   
   
-  asyncPool(2, [1000, 2000, 1000, 2000], timeout).then(res => {
-    console.log(res);
-  });
+  // asyncPool(2, [1000, 2000, 1000, 2000], timeout).then(res => {
+  //   console.log(res);
+  // });
 }
