@@ -29,8 +29,8 @@ function deepclone (source, cacheMap = new Map()) {
   }
 
   if (source instanceof Function) {
-    result = function () {
-      return source.apply(this, arguments)
+    result = function (...args) {
+      return source.apply(this, args)
     }
   }
 
