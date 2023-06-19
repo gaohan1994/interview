@@ -52,6 +52,8 @@
   },
   "workspaces": [
     "packages/pack",
-    "packages/pack-app"
+    "packages/pack-app",
+    "packages/my-webpack-clean-plugin",
+    "packages/write-clear-plugin"
   ]
 }
