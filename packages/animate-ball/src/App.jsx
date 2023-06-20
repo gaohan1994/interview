@@ -1,29 +1,40 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
+import { Cart } from "./components/Cart";
+import { useMap } from "./hook/useMap";
+import { useRef } from "react";
+import { AnimateBall } from "./components/AnimateBall";
+import { createAnimateBallContext } from "./components/createAnimateBallContext";
 import "./App.css";
 
+function createAnimateBallId() {
+  return Math.random() * Date.now() + Math.random();
+}
+
 function App() {
-  const [count, setCount] = useState(0);
+  const cartRef = useRef();
+  const [animateBallMap, actions] = useMap();
+  const { set, remove } = actions;
+
+  const createAnimateBall = event => {
+    const id = createAnimateBallId();
+    const animateBallContext = createAnimateBallContext(event, cartRef.current);
+    set(id, {
+      id,
+      context: animateBallContext,
+      remove: () => remove(id),
+    });
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+        <button onClick={createAnimateBall}>create animate ball</button>
       </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      {Array.from(animateBallMap).map(([id, item]) => (
+        <AnimateBall key={id} {...item} />
+      ))}
+      <div className="cart-box" ref={cartRef}>
+        <Cart />
+      </div>
     </>
   );
 }
