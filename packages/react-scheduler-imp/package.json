@@ -1,0 +1,31 @@
+{
+  "name": "react-scheduler-imp",
+  "version": "0.0.0",
+  "type": "module",
+  "description": "> TODO: description",
+  "author": "gaohan1994 <871418277@qq.com>",
+  "homepage": "https://github.com/gaohan1994/interview#readme",
+  "license": "ISC",
+  "main": "react-scheduler-imp.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npm.taobao.org/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaohan1994/interview.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/react-scheduler-imp.test.js",
+    "dev": "node ./react-scheduler-imp.js"
+  },
+  "bugs": {
+    "url": "https://github.com/gaohan1994/interview/issues"
+  }
+}
