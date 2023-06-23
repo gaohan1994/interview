@@ -1,47 +1,69 @@
-import React, { useState, useEffect, useRef } from 'react';
-import './page.less';
-import { navs, data as cartData } from './cartdata';
-import useBall from './ball';
+import React, { useState, useEffect, useRef, useLayoutEffect } from "react";
+import "./page.less";
+import { data as cartData } from "./cartdata";
+import { throttle } from "../utils/throttle";
 
-const cartItemHeight = 50;
-
-function CartItem() {
-  return <div style={{ height: cartItemHeight }}></div>;
-}
+const HEADER_HEIGHT = 45;
 
 export default function CartPage() {
   const leftRef = useRef(null);
   const rightRef = useRef(null);
-  const [selector, setSelector] = useState('');
-  const [data, setData] = useState(cartData);
+
+  const [data, setData] = useState([]);
+  const [navs, setNavs] = useState([]);
+  const [selector, setSelector] = useState("");
 
   const startRef = useRef();
   const endRef = useRef();
 
-  const ball1 = useBall(startRef, endRef);
+  useLayoutEffect(() => {
+    const _cartData = cartData;
+    setData(_cartData);
+    const _navs = cartData.map(item => item.title);
+    setNavs(_navs);
+
+    let hash = window.location.hash;
+    hash = hash.replace("#", "");
+    hash = hash.replace("/", "");
+
+    if (_navs.includes(hash)) {
+      setSection(hash);
+
+      let startIndex = 0;
+      let scrollDistance = 0;
+
+      while (_navs[startIndex] !== hash) {
+        const currentSection = _cartData[startIndex];
+        scrollDistance += currentSection.items.length * 81;
+        scrollDistance += HEADER_HEIGHT;
+        startIndex++;
+      }
+
+      requestAnimationFrame(() => rightRef.current?.scroll({ top: scrollDistance }));
+    }
+  }, []);
 
   useEffect(() => {
     if (selector) {
       window.location.hash = selector;
       const selectedIndex = navs.indexOf(selector);
-      leftRef.current.scrollTop =
-        (selectedIndex > 7 ? selectedIndex - 7 : 0) * 50;
+      leftRef.current.scrollTop = (selectedIndex > 7 ? selectedIndex - 7 : 0) * 50;
     }
   }, [selector]);
 
-  const setSection = (sectionId) => {
+  const setSection = sectionId => {
     setSelector(sectionId);
   };
 
-  const toSection = (event) => {
+  const toSection = event => {
     const targetElement = event.target;
-    const targetId = targetElement.getAttribute('id');
+    const targetId = targetElement.getAttribute("id");
 
     setSection(targetId);
   };
 
   const onScroll = () => {
-    const titles = document.getElementsByClassName('sectionTitle');
+    const titles = document.getElementsByClassName("sectionTitle");
     for (let i = 0; i < titles.length; i++) {
       const style = titles[i].getBoundingClientRect();
 
@@ -52,7 +74,7 @@ export default function CartPage() {
   };
 
   const onReduce = (sectionIndex, foodIndex) => {
-    setData((prevData) => {
+    setData(prevData => {
       let nextData = prevData;
       nextData[sectionIndex].items[foodIndex].num =
         nextData[sectionIndex].items[foodIndex].num > 0
@@ -63,13 +85,11 @@ export default function CartPage() {
   };
 
   const onAdd = (sectionIndex, foodIndex, event) => {
-    setData((prevData) => {
+    setData(prevData => {
       let nextData = prevData;
       nextData[sectionIndex].items[foodIndex].num += 1;
       return [...nextData];
     });
-
-    ball1.running(1);
   };
 
   return (
@@ -80,13 +100,13 @@ export default function CartPage() {
       </div>
       <div className="goods">
         <ul className="left" onClick={toSection} ref={leftRef}>
-          {navs.map((nav) => (
-            <li key={nav} id={nav} className={nav === selector ? 'active' : ''}>
+          {navs.map(nav => (
+            <li key={nav} id={nav} className={nav === selector ? "active" : ""}>
               {nav}
             </li>
           ))}
         </ul>
-        <ul ref={rightRef} className="right" onScroll={onScroll}>
+        <ul ref={rightRef} className="right" onScroll={throttle(onScroll, 50)}>
           {data.map((sectionList, sectionIndex) => {
             return (
               <li key={sectionList.title}>
@@ -94,28 +114,15 @@ export default function CartPage() {
                 <ul>
                   {sectionList.items.map((item, foodIndex) => {
                     return (
-                      <li
-                        key={`${sectionList.title}${item.food}`}
-                        className="item"
-                      >
+                      <li key={`${sectionList.title}${item.food}`} className="item">
                         <div>{item.food}</div>
 
                         <div className="bar">
-                          <div className={`pop ${item.num > 0 ? 'mov' : ''}`}>
-                            <span
-                              onClick={() => onReduce(sectionIndex, foodIndex)}
-                            >
-                              -
-                            </span>
+                          <div className={`pop ${item.num > 0 ? "mov" : ""}`}>
+                            <span onClick={() => onReduce(sectionIndex, foodIndex)}>-</span>
                             {item.num}
                           </div>
-                          <span
-                            onClick={(event) =>
-                              onAdd(sectionIndex, foodIndex, event)
-                            }
-                          >
-                            +
-                          </span>
+                          <span onClick={event => onAdd(sectionIndex, foodIndex, event)}>+</span>
                         </div>
                       </li>
                     );
@@ -128,7 +135,7 @@ export default function CartPage() {
       </div>
 
       <div className="footer">
-        <span ref={endRef}>footer</span>
+        <span ref={endRef}>cart</span>
       </div>
     </div>
   );

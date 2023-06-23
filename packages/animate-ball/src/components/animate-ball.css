@@ -1,4 +1,6 @@
 .ball {
+  position: fixed;
+  z-index: 2000;
   width: 20px;
   height: 20px;
 }

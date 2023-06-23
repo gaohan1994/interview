@@ -36,11 +36,6 @@ export function AnimateBall(props) {
   }, [x, y, targetX, targetY, speedX, remove]);
 
   return (
-    <img
-      src={reactLogo}
-      style={{ position: "absolute", left: x, top: y }}
-      className="logo react ball"
-      alt="React logo"
-    />
+    <img src={reactLogo} style={{ left: x, top: y }} className="logo react ball" alt="React logo" />
   );
 }
