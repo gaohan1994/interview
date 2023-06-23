@@ -237,3 +237,49 @@ function slidingWindow(s, t) {
     return result;
   };
 }
+
+{
+  // 给定一个字符串 s ，请你找出其中不含有重复字符的 最长子串 的长度。
+  // 题目3
+  //   输入: s = "abcabcbb"
+  // 输出: 3
+  // 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+  //   输入: s = "bbbbb"
+  // 输出: 1
+  // 解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+  //   输入: s = "pwwkew"
+  // 输出: 3
+  // 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+  //      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+  // 来源：力扣（LeetCode）
+  // 链接：https://leetcode.cn/problems/longest-substring-without-repeating-characters
+  // 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+  var lengthOfLongestSubstring = function (s) {
+    if (s === "") {
+      return 0;
+    }
+    let box = new Map();
+
+    let left = 0,
+      right = 0,
+      result = 0;
+
+    while (right < s.length) {
+      const char = s[right];
+      right++;
+
+      box.set(char, (box.get(char) ?? 0) + 1);
+
+      while (box.get(char) > 1) {
+        const deleteChar = s[left];
+        left++;
+        box.set(deleteChar, (box.get(deleteChar) ?? 0) - 1);
+      }
+
+      result = Math.max(result, right - left);
+    }
+
+    return result;
+  };
+}
