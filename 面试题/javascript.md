@@ -57,7 +57,7 @@ Function.prototype.call2 = function (thisArg) {
   let context = thisArg;
   context.fn = this;
 
-  let result = eval('context.fn( ' + args + ' )');
+  let result = eval("context.fn( " + args + " )");
   delete context.fn;
 
   return result;
@@ -66,10 +66,48 @@ Function.prototype.apply2 = function (thisArg, params) {
   let context = thisArg;
   context.fn = this;
 
-  let result = eval('context.fn( ' + params + ' )');
+  let result = eval("context.fn( " + params + " )");
   delete context.fn;
 
   return result;
+};
+
+Function.prototype.call2 = function (context, ...rest) {
+  const executer = this;
+  const key = Symbol();
+
+  context = {
+    ...context,
+    key: executer,
+  };
+
+  const result = context.key(...rest);
+  delete context.key();
+
+  return result;
+};
+
+Function.prototype.apply2 = function (context, args) {
+  const executer = this;
+  const key = Symbol();
+
+  context = {
+    ...context,
+    key: executer,
+  };
+
+  const result = context.key(args);
+  delete context.key();
+
+  return result;
+};
+Function.prototype.bind2 = function (thisArg, ...rest) {
+  let args = [].concat(rest);
+  let executer = this;
+
+  return function bindedFunction(...runExecuterArgs) {
+    return executer.apply(thisArg, args.concat(runExecuterArgs));
+  };
 };
 ```
 
@@ -135,7 +173,7 @@ function Man(name, age) {
   this.name = name;
   this.age = age;
 
-  this.sex = 'man';
+  this.sex = "man";
 }
 
 Man.prototype = Object.create(Person.prototype);
@@ -152,7 +190,7 @@ function myNew() {
   target.__proto__ = constructor.prototype;
   let result = constructor.call(target, args);
 
-  if (typeof result === 'object' || typeof result === 'function') {
+  if (typeof result === "object" || typeof result === "function") {
     return result;
   }
 
@@ -194,23 +232,23 @@ function mySetInterval(func, timeout) {
 
 ```javascript
 function render(vnode) {
-  if (typeof vnode === 'number') {
+  if (typeof vnode === "number") {
     return String(vnode);
   }
-  if (typeof vnode === 'string') {
+  if (typeof vnode === "string") {
     return document.createTextNode(vnode);
   }
 
   let node = document.createElement(vnode.tag.toLocaleLowerCase());
 
   if (vnode.attrs) {
-    Object.keys(vnode.attrs).forEach((key) => {
+    Object.keys(vnode.attrs).forEach(key => {
       const value = vnode.attrs[key];
       node.setAttribute(key, value);
     });
   }
 
-  vnode.children.forEach((child) => {
+  vnode.children.forEach(child => {
     vnode.appendChild(render(child));
   });
 
@@ -307,7 +345,7 @@ function flatten(array) {
 
 ```javascript
 function maxCommonPrefix(strs) {
-  let commonPrefix = '';
+  let commonPrefix = "";
   let index = 0;
   const firstStr = strs[0];
 
@@ -424,12 +462,12 @@ console.log(num, obj.num);
 // window num => 65 obj num => 30
 
 var a = {
-  name: 'zhang',
+  name: "zhang",
   sayName: function () {
-    console.log('this.name=' + this.name);
+    console.log("this.name=" + this.name);
   },
 };
-var name = 'ling';
+var name = "ling";
 function sayName() {
   var sss = a.sayName;
   sss(); //this.name = ?
@@ -449,7 +487,7 @@ var obj = {
   foo: function (b) {
     b = b || this.a;
     return function (c) {
-      console.log('this', this);
+      console.log("this", this);
       console.log(this.a + b + c);
     };
   },
@@ -461,11 +499,11 @@ obj.foo(a).call(obj2, 1);
 // 6
 obj.foo.call(obj2)(1);
 
-var name = 'window';
+var name = "window";
 function Person(name) {
   this.name = name;
   this.obj = {
-    name: 'obj',
+    name: "obj",
     foo1: function () {
       return function () {
         console.log(this.name);
@@ -478,8 +516,8 @@ function Person(name) {
     },
   };
 }
-var person1 = new Person('person1');
-var person2 = new Person('person2');
+var person1 = new Person("person1");
+var person2 = new Person("person2");
 
 person1.obj.foo1()(); // window
 person1.obj.foo1.call(person2)(); // window

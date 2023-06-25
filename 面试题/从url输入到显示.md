@@ -1,12 +1,88 @@
 # 从输入一个 URL 地址到浏览器完成渲染的整个过程
 
+## url 解析
+
 输入 url 回车，进行 url 解析
-DNS 解析查找真实 ip 地址
-根据 ip 建立 TCP 链接 3 次握手
-发起 http 请求
-服务器接收到 http 返回资源浏览器接收到响应
-解析 HTML 生成 dom，解析 CSS 生成 CSSOM，遇到 js 标签，暂停解析请求 js 文件并执行
-DOM + CSSOM 生成 render tree
+
+## DNS 解析
+
+- DNS 解析过程
+  根据优先级从高到底依次询问 url 的真实地址 => 根域名服务器，顶级域名服务器，权威域名服务器
+  每级 DNS 服务器均有缓存，本地也有 DNS 缓存，同时 HOST 文件也有缓存
+
+## 建立 TCP 链接
+
+- 3 次握手 4 次挥手
+  客户端处于 close 状态
+  服务器处于 listen 状态
+
+  客户端发送报文 [序列号 client_isn] syn 置为 1
+  客户端处于 SYN_SENT 状态
+
+  服务器端收到后返回报文 [序列号 client_isn + 1, 应答序列号 server_isn] syn 置为 1，ack 置为 1
+  服务器端处于 SYNC_RECIVED 状态
+
+  客户端收到报文返回 [确认应答号：server_isn + 1 ] ack 置为 1，同时这次报文可以携带数据
+  客户端处于 ESTABLISHED 状态
+
+  服务器收到报文
+  服务器处于 ESTABLISHED 状态
+
+- 重传、滑动窗口、流量控制、拥塞控制
+
+## 发起 HTTP 请求
+
+- 常见的状态码
+- Http 缓存
+  强制缓存 Cache-Control、Expired
+  协商缓存 If-Not-Matched & ETag、If-Modified-Since & Last-Modify
+
+- Http 1.1
+
+  - 队头阻塞
+    当顺序发送的请求系列中有一个请求因为某种原因被阻塞时，后面排队的所有请求也一同被阻塞了
+  - 请求头没有压缩，报文体积较大
+  - 请求只能从客户端发起，服务器端只能响应
+
+- Https
+  解决了 http 的安全问题，在 tcp 三次握手的前提上加入了 TLS/SSL 安全层
+  TLS 的加密过程
+
+  客户端发送 [client_ranom TLS_version, 加密套件] => 服务器端
+  服务器端下发 [CA 证书, server_random, TLS_version, 选中的加密套件] => 客户端
+  客户端校验 CA 证书，提取公钥 发送 [用公钥加密的 pre_master_key] => 服务器端
+  服务器端拿到 公钥加密的 pre_master_key，用私钥解密，这时服务器端和客户端都有
+  [client_random server_random pre_master_key] 利用公钥加密生成会话秘钥
+  最后发送一次报文给客户端，把之前发生的所有数据都做个摘要下发供客户端校验。
+
+- Http 2.0
+  基于 https
+
+  - 头部压缩：客户端和服务器端会共同维护一张信息表
+
+  - 二进制格式
+    头部信息帧，数据帧
+
+  - 并发传输
+    http2 引出了 stream 概念，在一条 tcp 连接中可以复用多路 stream 一个 stream 可以包含多个 message，每个 message 可能包含多个 Frame 也就是 http2 的帧，服务器接收到帧之后再根据 streamId 组装成有序的 http 消息
+    不同的 stream 可以乱序发送，相同的 stream 只能有序发送
+
+  - 服务器推送
+
+  但是 http2 还是可能会有队头阻塞，TCP 层必须保证接受的数据是完整连续的，这样内核才会将缓冲区的数据返回给 http 应用层，当前一个数据没达到时，后面的数据就算达到了也只能存放在缓冲区
+
+- Http3
+  Http3 将传输层协议改成了 UDP
+  UDP 的发送不管顺序，不会堵塞，基于 QUIC 协议可以实现类似 TCP 的可靠传输协议
+
+  QUIC 特点 1、无队头阻塞 2、更快的建立连接 3、链接迁移
+
+## 服务器接收到 http 返回资源浏览器接收到响应
+
+## 解析 HTML 生成 dom，解析 CSS 生成 CSSOM，遇到 js 标签，暂停解析请求 js 文件并执行
+
+## DOM + CSSOM 生成 render tree
+
 遍历通过元素的属性计算出元素的空间信息以及显示信息（可触发回流）
 调用浏览器的绘制方法（可触发重绘）
 显示在屏幕上
@@ -159,40 +235,40 @@ Event Loop
 ```javascript
 // 1 7 6 8 2 4 3 5 9 11 10 12
 
-console.log('1');
+console.log("1");
 
 setTimeout(function () {
-  console.log('2');
+  console.log("2");
   process.nextTick(function () {
-    console.log('3');
+    console.log("3");
   });
   new Promise(function (resolve) {
-    console.log('4');
+    console.log("4");
     resolve();
   }).then(function () {
-    console.log('5');
+    console.log("5");
   });
 });
 process.nextTick(function () {
-  console.log('6');
+  console.log("6");
 });
 new Promise(function (resolve) {
-  console.log('7');
+  console.log("7");
   resolve();
 }).then(function () {
-  console.log('8');
+  console.log("8");
 });
 
 setTimeout(function () {
-  console.log('9');
+  console.log("9");
   process.nextTick(function () {
-    console.log('10');
+    console.log("10");
   });
   new Promise(function (resolve) {
-    console.log('11');
+    console.log("11");
     resolve();
   }).then(function () {
-    console.log('12');
+    console.log("12");
   });
 });
 ```
