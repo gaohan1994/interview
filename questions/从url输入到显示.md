@@ -298,3 +298,52 @@ setTimeout(function () {
   });
 });
 ```
+
+1、url 解析
+2、dns 解析
+从 dns 根服务器到权威服务器递归查询、有缓存用缓存
+3、建立 tcp 链接
+3 次握手
+为什么是 3 次握手 接收端和发送端都至少发送和接收了一次报文，具备了建立稳定 tcp 的条件
+
+4、发送 http 报文
+http 缓存
+http1.1
+队头阻塞
+报文较大
+服务器只能接收
+
+http2
+头部压缩，服务器端和客户端共同维护一张信息表
+二进制传输
+并发传输
+虽然解决了 http 层面的阻塞，但是没有解决 tcp 层面的阻塞
+服务器推送
+
+https
+在 http1.1 的基础上加了一个 TLS/SSL 安全层
+建立 TLS 的过程 client-random, server-random pre-master-key
+
+http3
+在传输层选择了 udp
+UDP 是乱序且非安全的传输层协议，但是基于 Quic 协议可以在 UDP 的基础上实现类似 tcp 的安全可靠的传输层
+无队头阻塞，更快的建立连接，链接迁移
+
+http 缓存
+强制缓存
+expireTime 绝对时间 不推荐
+cache-control: max-age= 360000
+协商缓存
+
+If-Not-Match & ETag
+If-Modify-Since & Last-Modify
+
+接收到 http 报文之后
+根据 html 生成 html 树，根据 css 生成 cssom 树，两树结合生成 render tree
+
+如果遇到 script 标签则发起资源请求
+async 异步发起，收到后立即执行
+defer 异步发起，等加载结束按顺序执行
+
+jsEventloop
+回流和重绘

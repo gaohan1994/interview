@@ -5,14 +5,14 @@ Promise.all2 = function (promises) {
   return new Promise((resolveAll, rejectAll) => {
     promises.forEach((currentPromise, index) => {
       Promise.resolve(currentPromise)
-        .then((currentResult) => {
+        .then(currentResult => {
           result[index] = currentResult;
 
           if (count === promises.length) {
             resolveAll(result);
           }
         })
-        .catch((currentError) => {
+        .catch(currentError => {
           rejectAll(currentError);
         });
     });
@@ -25,10 +25,10 @@ Promise.race2 = function (promises) {
       const currentPromise = promises[i];
 
       Promise.resolve(currentPromise)
-        .then((currentResult) => {
+        .then(currentResult => {
           resoveRace(currentResult);
         })
-        .catch((currentError) => {
+        .catch(currentError => {
           rejectRace(currentError);
         });
     }
@@ -55,17 +55,16 @@ Promise.race2 = function (promises) {
 
 {
   function red() {
-    console.log('red');
+    console.log("red");
   }
   function green() {
-    console.log('green');
+    console.log("green");
   }
   function yellow() {
-    console.log('yellow');
+    console.log("yellow");
   }
-
   function light(time, callback) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(() => {
         callback();
         resolve();
@@ -95,8 +94,8 @@ Promise.race2 = function (promises) {
 // mergePromise
 // 实现mergePromise函数，把传进去的数组按顺序先后执行，并且把返回的数据先后放到数组data中。
 {
-  const time = (timer) => {
-    return new Promise((resolve) => {
+  const time = timer => {
+    return new Promise(resolve => {
       setTimeout(() => {
         resolve();
       }, timer);
@@ -136,10 +135,10 @@ Promise.race2 = function (promises) {
     // 存放每个ajax的结果
     const data = [];
     let promise = Promise.resolve();
-    ajaxArray.forEach((ajax) => {
+    ajaxArray.forEach(ajax => {
       // 第一次的then为了用来调用ajax
       // 第二次的then是为了获取ajax的结果
-      promise = promise.then(ajax).then((res) => {
+      promise = promise.then(ajax).then(res => {
         data.push(res);
         return data; // 把每次的结果返回
       });
@@ -152,24 +151,24 @@ Promise.race2 = function (promises) {
 // 限制异步操作的并发个数并尽可能快的完成全部
 {
   var urls = [
-    'https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting1.png',
-    'https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting2.png',
-    'https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting3.png',
-    'https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting4.png',
-    'https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting5.png',
-    'https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn6.png',
-    'https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn7.png',
-    'https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn8.png',
+    "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting1.png",
+    "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting2.png",
+    "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting3.png",
+    "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting4.png",
+    "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/AboutMe-painting5.png",
+    "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn6.png",
+    "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn7.png",
+    "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/bpmn8.png",
   ];
   function loadImg(url) {
     return new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = function () {
-        console.log('一张图片加载完成');
+        console.log("一张图片加载完成");
         resolve(img);
       };
       img.onerror = function () {
-        reject(new Error('Could not load image at' + url));
+        reject(new Error("Could not load image at" + url));
       };
       img.src = url;
     });
@@ -180,7 +179,7 @@ Promise.race2 = function (promises) {
     let currentRequestIndex = 0;
 
     function request(resolveAll) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         if (result.length >= urls.length) {
           resolveAll(result);
           return;
@@ -188,7 +187,7 @@ Promise.race2 = function (promises) {
 
         const currentRequestUrl = urls[currentRequestIndex];
         Promise.resolve(loadImg(currentRequestUrl))
-          .then((img) => {
+          .then(img => {
             result[currentRequestIndex] = img;
           })
           .then(() => {
@@ -198,7 +197,7 @@ Promise.race2 = function (promises) {
       });
     }
 
-    return new Promise((resolveAll) => {
+    return new Promise(resolveAll => {
       while (currentRequestIndex < maxNumber) {
         request(resolveAll);
       }

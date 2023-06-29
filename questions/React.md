@@ -1,3 +1,37 @@
+# React 的工作流程
+
+创建 fiberRootNode、rootFiber、updateQueue（`legacyCreateRootFromDOMContainer`）
+
+    |
+    |
+    v
+
+创建 Update 对象（`updateContainer`）
+
+    |
+    |
+    v
+
+从 fiber 到 root（`markUpdateLaneFromFiberToRoot`）
+
+    |
+    |
+    v
+
+调度更新（`ensureRootIsScheduled`）
+
+    |
+    |
+    v
+
+render 阶段（`performSyncWorkOnRoot` 或 `performConcurrentWorkOnRoot`）
+
+    |
+    |
+    v
+
+commit 阶段（`commitRoot`）
+
 ## React Scheduler
 
 在 react 中，把更新做成一个个任务放进任务队列中，任务分成不同的优先级、开始事件等，

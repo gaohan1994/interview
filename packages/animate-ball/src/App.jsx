@@ -5,8 +5,6 @@ import { AnimateBall } from "./components/AnimateBall";
 import { createAnimateBallContext } from "./components/createAnimateBallContext";
 import "./components/cart.css";
 
-const HEADER_HEIGHT = 45;
-
 function createAnimateBallId() {
   return Math.random() * Date.now() + Math.random();
 }
@@ -15,48 +13,41 @@ function App() {
   const [animateBallMap, actions] = useMap();
   const { set, remove } = actions;
 
-  const leftRef = useRef(null);
-  const rightRef = useRef(null);
-
   const [data, setData] = useState([]);
   const [navs, setNavs] = useState([]);
   const [selector, setSelector] = useState("");
 
   const startRef = useRef();
   const cartRef = useRef();
+  const leftRef = useRef(null);
+  const rightRef = useRef(null);
+  const sectionRef = useRef();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const _cartData = cartData;
     setData(_cartData);
     const _navs = cartData.map(item => item.title);
     setNavs(_navs);
-
-    let hash = window.location.hash;
-    hash = hash.replace("#", "");
-    hash = hash.replace("/", "");
-
-    if (_navs.includes(hash)) {
-      setSection(hash);
-
-      let startIndex = 0;
-      let scrollDistance = 0;
-
-      while (_navs[startIndex] !== hash) {
-        const currentSection = _cartData[startIndex];
-        scrollDistance += currentSection.items.length * 81;
-        scrollDistance += HEADER_HEIGHT;
-        startIndex++;
-      }
-
-      requestAnimationFrame(() => rightRef.current?.scroll({ top: scrollDistance }));
-    }
   }, []);
+
+  useLayoutEffect(() => {
+    if (navs.length > 0) {
+      let hash = window.location.hash;
+      hash = hash.replace("#", "");
+      hash = hash.replace("/", "");
+
+      if (navs.includes(hash)) {
+        const nodeList = rightRef.current
+          .querySelector(`#right-${hash}`)
+          ?.querySelector(`#right-${hash}-list`);
+        nodeList.scrollIntoView({});
+      }
+    }
+  }, [navs]);
 
   useEffect(() => {
     if (selector) {
       window.location.hash = selector;
-      const selectedIndex = navs.indexOf(selector);
-      leftRef.current.scrollTop = (selectedIndex > 7 ? selectedIndex - 7 : 0) * 50;
     }
   }, [selector]);
 
@@ -67,8 +58,20 @@ function App() {
   const toSection = event => {
     const targetElement = event.target;
     const targetId = targetElement.getAttribute("id");
-
+    sectionRef.current = targetId;
     setSection(targetId);
+    scrollToSection();
+  };
+
+  const scrollToSection = () => {
+    const section = sectionRef.current;
+
+    if (navs.includes(section)) {
+      const nodeList = rightRef.current
+        .querySelector(`#right-${section}`)
+        ?.querySelector(`#right-${section}-list`);
+      nodeList.scrollIntoView();
+    }
   };
 
   const onScroll = () => {
@@ -130,9 +133,9 @@ function App() {
         </ul>
         <ul ref={rightRef} className="right" onScroll={onScroll}>
           {data.map((sectionList, sectionIndex) => (
-            <li key={sectionList.title}>
+            <li key={sectionList.title} id={`right-${sectionList.title}`}>
               <h3 className="sectionTitle">{sectionList.title}</h3>
-              <ul>
+              <ul id={`right-${sectionList.title}-list`}>
                 {sectionList.items.map((item, foodIndex) => (
                   <li key={`${sectionList.title}${item.food}`} className="item">
                     <div>{item.food}</div>
