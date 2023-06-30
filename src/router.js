@@ -13,6 +13,7 @@ import UploadPage from "./pages/design/context";
 import ProxyPage from "./pages/design/proxy";
 import EventPage from "./pages/design/event";
 import PromisePage from "./pages/promise";
+import { DragPage } from "./pages/drag";
 
 const Test = React.lazy(() => {
   return new Promise(resolve => {
@@ -44,7 +45,8 @@ export default function AppRouter() {
       {/* <ProxyPage /> */}
       {/* <EventPage /> */}
       {/* <PromisePage /> */}
-      <Route path="/" component={CartPage} />
+      <Route path="/cart" component={CartPage} />
+      <Route path="/drag" component={DragPage} />
 
       <Suspense fallback={<div>loading</div>}>
         <Route path="/test" component={Test} />

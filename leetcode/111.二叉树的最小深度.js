@@ -17,17 +17,26 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var minDepth = function (root) {
-  function traverse(node) {
-    if (node === null) {
-      return 0;
-    }
-
-    let leftHeight = traverse(node.left);
-    let rightHeight = traverse(node.right);
-
-    return Math.min(leftHeight, rightHeight) + 1;
+var minDepth = function (node) {
+  if (node === null) {
+    return 0;
   }
-  return traverse(root);
+
+  if (node.left === null && node.right === null) {
+    return 1;
+  }
+
+  let leftHeight = minDepth(node.left);
+  let rightHeight = minDepth(node.right);
+
+  if (leftHeight === 0) {
+    return rightHeight + 1;
+  }
+
+  if (rightHeight === 0) {
+    return leftHeight + 1;
+  }
+
+  return Math.min(leftHeight, rightHeight) + 1;
 };
 // @lc code=end
