@@ -1,7 +1,7 @@
 /*
- * @lc app=leetcode.cn id=543 lang=javascript
+ * @lc app=leetcode.cn id=530 lang=javascript
  *
- * [543] 二叉树的直径
+ * [530] 二叉搜索树的最小绝对差
  */
 
 // @lc code=start
@@ -17,23 +17,25 @@
  * @param {TreeNode} root
  * @return {number}
  */
-var diameterOfBinaryTree = function (root) {
-  let result = 0;
+var getMinimumDifference = function (root) {
+  let result = Infinity,
+    previous = undefined;
 
   function traverse(node) {
     if (node === null) {
-      return 0;
+      return;
     }
 
-    const leftDiameter = traverse(node.left);
+    traverse(node.left);
 
-    const rightDiameter = traverse(node.right);
+    if (previous === undefined) {
+      previous = node;
+    } else {
+      result = Math.min(result, Math.abs(node.val - previous.val));
+      previous = node;
+    }
 
-    const currentMaxDiameter = Math.max(leftDiameter, rightDiameter);
-
-    result = Math.max(result, leftDiameter + rightDiameter);
-
-    return currentMaxDiameter + 1;
+    traverse(node.right);
   }
 
   traverse(root);
