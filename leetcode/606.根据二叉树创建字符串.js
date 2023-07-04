@@ -18,18 +18,27 @@
  * @return {string}
  */
 var tree2str = function (root) {
-  let result = "";
-
   function traverse(node) {
     if (node === null) {
-      return;
+      return "";
     }
 
-    result += `${node.val}`;
+    const left = traverse(node.left);
 
-    traverse(node.left);
+    const right = traverse(node.right);
 
-    traverse(node.right);
+    if (node.left === null && node.right === null) {
+      return `${node.val}`;
+    }
+
+    if (node.right === null) {
+      return `${node.val}(${left})`;
+    }
+
+    return `${node.val}(${left})(${right})`;
   }
+
+  const result = traverse(root);
+  return result;
 };
 // @lc code=end
