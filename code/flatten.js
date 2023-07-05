@@ -9,3 +9,28 @@
     return result;
   }
 }
+
+{
+  // 使用迭代的方式实现 flatten 函数。
+
+  function flatten(array) {
+    const result = [];
+
+    const quene = [array];
+
+    while (quene.length > 0) {
+      const node = quene.shift();
+
+      if (Array.isArray(node)) {
+        quene.unshift(...node);
+      } else {
+        result.push(node);
+      }
+    }
+
+    return result;
+  }
+
+  const result = flatten([1, [2, 3], 4, [[5]]]);
+  console.log("result", result);
+}

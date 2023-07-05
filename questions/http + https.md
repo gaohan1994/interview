@@ -60,6 +60,23 @@ https 相当于安全的 http 是 http 加上安全层 SSL
 
 ### 讲讲 http 缓存
 
+https://www.jianshu.com/p/54cc04190252
+
+缓存策略和位置
+
+Memoery Cache 与 Disk Cache
+即缓存在内存中和缓存在磁盘中
+缓存在内存中速写速度最快，大小有限制
+
+对于大文件来说，大概率是不存储在内存中的，反之优先
+当前系统内存使用率高的话，文件优先存储进硬盘
+
+用户行为对缓存的影响：
+
+- 打开网页输入网址；查找缓存中是否匹配，如果匹配则直接使用缓存，如果没有则发送请求
+- 刷新：没有关闭 tab 则优先检测 Memoery Cache 然后是 Disk Cache
+- 强制刷新：不使用缓存，请求头中均携带 Cache-control: no-cache
+
 1、强制缓存
 由 expires 或者 cache-control 指定 cache-control 优先级更高
 格式 expires：过期时间 | cache-control：max-age=36000
