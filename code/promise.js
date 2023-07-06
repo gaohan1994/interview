@@ -36,3 +36,18 @@ Promise.prototype.any = function promiseAny(promises) {
     }
   });
 };
+
+{
+  // 实现 Promise.finally
+  // https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/109
+
+  Promise.prototype.myfinally = function (executer) {
+    return this.then(
+      result => Promise.resolve(executer()).then(() => value),
+      reason =>
+        Promise.resolve(executer()).then(() => {
+          throw reason;
+        })
+    );
+  };
+}
