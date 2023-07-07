@@ -15,6 +15,7 @@ import EventPage from "./pages/design/event";
 import PromisePage from "./pages/promise";
 import { DragPage } from "./pages/drag";
 import { StatePage } from "./pages/state";
+import { InputChinese } from "./pages/input-chinese";
 
 const Test = React.lazy(() => {
   return new Promise(resolve => {
@@ -49,6 +50,7 @@ export default function AppRouter() {
       <Route path="/cart" component={CartPage} />
       <Route path="/drag" component={DragPage} />
       <Route path="/state" component={StatePage} />
+      <Route path="/input" component={InputChinese} />
 
       <Suspense fallback={<div>loading</div>}>
         <Route path="/test" component={Test} />

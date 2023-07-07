@@ -51,3 +51,42 @@ Promise.prototype.any = function promiseAny(promises) {
     );
   };
 }
+
+{
+  // 介绍下 Promise.all 使用、原理实现及错误处理
+
+  Promise.prototype.myAll = function (promises) {
+    let resolvePromisesNumber = 0;
+    let result = [];
+
+    return new Promise((resolve, reject) => {
+      for (let index = 0; index < promises.length; index++) {
+        const promise = promises[index];
+
+        Promise.resolve(promise())
+          .then(currentPromiseResult => {
+            result[index] = currentPromiseResult;
+            resolvePromisesNumber++;
+
+            if (resolvePromisesNumber === promises.length) {
+              resolve(result);
+            }
+          })
+          .catch(reject);
+      }
+    });
+  };
+}
+
+{
+  //. 设计并实现 Promise.race()
+
+  Promise.prototype.myRace = function myRace(promises) {
+    return new Promise((resolve, reject) => {
+      for (let index = 0; index < promises.length; index++) {
+        const promise = promises[index];
+        Promise.resolve(promise()).then(resolve, reject);
+      }
+    });
+  };
+}

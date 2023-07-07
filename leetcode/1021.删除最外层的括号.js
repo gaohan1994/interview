@@ -9,5 +9,27 @@
  * @param {string} s
  * @return {string}
  */
-var removeOuterParentheses = function (s) {};
+var removeOuterParentheses = function (s) {
+  let stack = [];
+  let result = "";
+
+  for (let index = 0; index < s.length; index++) {
+    const char = s.charAt(index);
+
+    if (char === ")") {
+      stack.pop();
+    }
+
+    if (stack.length) {
+      result += char;
+    }
+
+    if (char === "(") {
+      // 入栈
+      stack.push(char);
+    }
+  }
+
+  return result;
+};
 // @lc code=end

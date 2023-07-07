@@ -11,11 +11,15 @@
   function handler(array, k) {
     const realK = k > array.length ? k % array.length : k;
 
-    for (let index = 0; index < array.length; index++) {
-      const item = array[index];
-
-      if (index < k) {
-      }
+    let index = 0;
+    while (index <= realK) {
+      const node = array.shift();
+      array.push(node);
+      index++;
     }
+
+    return array;
   }
+
+  console.log(handler([1, 2, 3, 4, 5, 6, 7], 3));
 }

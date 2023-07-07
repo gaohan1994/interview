@@ -47,3 +47,41 @@
   a[c] = "c";
   console.log(a[b]);
 }
+
+{
+  function changeObjProperty(o) {
+    o.siteUrl = "http://www.baidu.com";
+    o = new Object();
+    o.siteUrl = "http://www.google.com";
+  }
+  let webSite = new Object();
+  changeObjProperty(webSite);
+  console.log(webSite.siteUrl);
+}
+
+{
+  function Foo() {
+    Foo.a = function () {
+      console.log(1);
+    };
+    this.a = function () {
+      console.log(2);
+    };
+  }
+  Foo.prototype.a = function () {
+    console.log(3);
+  };
+  Foo.a = function () {
+    console.log(4);
+  };
+  Foo.a(); // 4
+  let obj = new Foo();
+  obj.a(); // 2
+  Foo.a(); // 1
+
+  function myNew(cons, ...rest) {
+    let result = {};
+    result.__proto__ = cons.prototype;
+    cons.call(result, ...rest);
+  }
+}
