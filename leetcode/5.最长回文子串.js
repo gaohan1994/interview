@@ -10,25 +10,23 @@
  * @return {string}
  */
 var longestPalindrome = function (s) {
-  const dp = new Map();
+  const n = s.length;
+  const dp = new Array(n).fill(0).map(() => new Array(n).fill(0));
 
-  if (s.length <= 1) {
-    return s;
+  for (let i = 0; i < n; i++) {
+    dp[i][i] = 1;
   }
 
-  let length = 2;
-
-  while (length < s.length) {
-    // 从长度为2开始遍历
-    // 0-2, 1-3, 2-4 ...
-    let start = 0;
-
-    while (start + length < s.length) {
-      const end = start + length;
-      const char = s.slice(start, end);
+  for (let i = n - 2; i >= 0; i--) {
+    for (let j = i + 1; j < n; j++) {
+      if (s[i] === s[j]) {
+        dp[i][j] = dp[i + 1][j - 1] + 2;
+      } else {
+        dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1]);
+      }
     }
-
-    length++;
   }
+
+  return dp[0][n - 1];
 };
 // @lc code=end
