@@ -16,6 +16,9 @@ import PromisePage from "./pages/promise";
 import { DragPage } from "./pages/drag";
 import { StatePage } from "./pages/state";
 import { InputChinese } from "./pages/input-chinese";
+import { AuthComponentPage, ProtectedPage } from "./pages/auth-component-page";
+import { RouteGuard } from "./component/permission/guard";
+import { Switch } from "react-router-dom/cjs/react-router-dom";
 
 const Test = React.lazy(() => {
   return new Promise(resolve => {
@@ -47,10 +50,21 @@ export default function AppRouter() {
       {/* <ProxyPage /> */}
       {/* <EventPage /> */}
       {/* <PromisePage /> */}
-      <Route path="/cart" component={CartPage} />
-      <Route path="/drag" component={DragPage} />
-      <Route path="/state" component={StatePage} />
-      <Route path="/input" component={InputChinese} />
+      <Switch>
+        <Route path="/cart" component={CartPage} />
+        <Route path="/drag" component={DragPage} />
+        <Route path="/state" component={StatePage} />
+        <Route path="/input" component={InputChinese} />
+        <Route path="/authcomponent" component={AuthComponentPage} />
+        <Route
+          path="/protected"
+          component={() => (
+            <RouteGuard route="/protected">
+              <ProtectedPage />
+            </RouteGuard>
+          )}
+        />
+      </Switch>
 
       <Suspense fallback={<div>loading</div>}>
         <Route path="/test" component={Test} />

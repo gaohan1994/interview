@@ -4491,8 +4491,8 @@ he@^1.2.0, he@1.2.0:
 
 history@^4.9.0:
   version "4.10.1"
-  resolved "https://registry.nlark.com/history/download/history-4.10.1.tgz"
-  integrity sha1-MzcaZeOoOyZ0NOKz87G0xYqtTPM=
+  resolved "https://registry.npmmirror.com/history/-/history-4.10.1.tgz"
+  integrity sha512-36nwAD620w12kuzPAsyINPWJqlNbij+hpK1k9XRloDtym8mxzGYl2c17LnV6IAGB2Dmg4tEa7G7DlawS0+qjew==
   dependencies:
     "@babel/runtime" "^7.1.2"
     loose-envify "^1.2.0"
@@ -5871,14 +5871,6 @@ min-indent@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmmirror.com/min-indent/-/min-indent-1.0.1.tgz"
   integrity sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==
-
-mini-create-react-context@^0.4.0:
-  version "0.4.1"
-  resolved "https://registry.npm.taobao.org/mini-create-react-context/download/mini-create-react-context-0.4.1.tgz"
-  integrity sha1-ByFxVhv9ySLaCKYMIZekl8wtHV4=
-  dependencies:
-    "@babel/runtime" "^7.12.1"
-    tiny-warning "^1.0.3"
 
 mini-css-extract-plugin@^2.3.0:
   version "2.3.0"
@@ -7569,7 +7561,7 @@ promzard@^1.0.0:
   dependencies:
     read "^2.0.0"
 
-prop-types@^15.0.0, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
+prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.8.1:
   version "15.8.1"
   resolved "https://registry.npmmirror.com/prop-types/-/prop-types-15.8.1.tgz"
   integrity sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==
@@ -7727,29 +7719,28 @@ react-refresh@^0.14.0:
   resolved "https://registry.npmmirror.com/react-refresh/-/react-refresh-0.14.0.tgz"
   integrity sha512-wViHqhAd8OHeLS/IRMJjTSDHF3U9eWi62F/MledQGPdJGDhodXJ9PBLNGr6WWL7qlH12Mt3TyTpbS+hGXMjCzQ==
 
-react-router-dom@^5.3.0:
-  version "5.3.0"
-  resolved "https://registry.npmmirror.com/react-router-dom/download/react-router-dom-5.3.0.tgz?cache=0&sync_timestamp=1632530407699&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact-router-dom%2Fdownload%2Freact-router-dom-5.3.0.tgz"
-  integrity sha1-2hv7U1oOiacSqTuX3Xb0etHzI2M=
+react-router-dom@^5.3.4:
+  version "5.3.4"
+  resolved "https://registry.npmmirror.com/react-router-dom/-/react-router-dom-5.3.4.tgz"
+  integrity sha512-m4EqFMHv/Ih4kpcBCONHbkT68KoAeHN4p3lAGoNryfHi0dMy0kCzEZakiKRsvg5wHZ/JLrLW8o8KomWiz/qbYQ==
   dependencies:
     "@babel/runtime" "^7.12.13"
     history "^4.9.0"
     loose-envify "^1.3.1"
     prop-types "^15.6.2"
-    react-router "5.2.1"
+    react-router "5.3.4"
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-router@5.2.1:
-  version "5.2.1"
-  resolved "https://registry.npmmirror.com/react-router/download/react-router-5.2.1.tgz?cache=0&sync_timestamp=1632530407768&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact-router%2Fdownload%2Freact-router-5.2.1.tgz"
-  integrity sha1-TS5OnVrpQlCRhFuNvG2dJ2I5d00=
+react-router@5.3.4:
+  version "5.3.4"
+  resolved "https://registry.npmmirror.com/react-router/-/react-router-5.3.4.tgz"
+  integrity sha512-Ys9K+ppnJah3QuaRiLxk+jDWOR1MekYQrlytiXxC1RyfbdsZkS5pvKAzCCr031xHixZwpnsYNT5xysdFHQaYsA==
   dependencies:
     "@babel/runtime" "^7.12.13"
     history "^4.9.0"
     hoist-non-react-statics "^3.1.0"
     loose-envify "^1.3.1"
-    mini-create-react-context "^0.4.0"
     path-to-regexp "^1.7.0"
     prop-types "^15.6.2"
     react-is "^16.6.0"
@@ -7760,7 +7751,7 @@ react-router@5.2.1:
   version "0.0.0"
   resolved "file:packages/react-scheduler-imp"
 
-"react@^0.14.0 || ^15.0.0 || ^16.0.0 || ^17.0.0", "react@^16.8.3 || ^17", react@^17.0.2, react@>=15, react@>=16.3.0, react@17.0.2:
+"react@^16.8.3 || ^17", react@^17.0.2, react@>=15, react@>=16.3.0, react@17.0.2:
   version "17.0.2"
   resolved "https://registry.npmmirror.com/react/download/react-17.0.2.tgz?cache=0&sync_timestamp=1633709756315&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Freact%2Fdownload%2Freact-17.0.2.tgz"
   integrity sha1-0LXMUW0p6z7uOD91tihkz7aAADc=
@@ -8046,8 +8037,8 @@ resolve-from@5.0.0:
 
 resolve-pathname@^3.0.0:
   version "3.0.0"
-  resolved "https://registry.npm.taobao.org/resolve-pathname/download/resolve-pathname-3.0.0.tgz"
-  integrity sha1-mdAiJNPPJjaJvsuzk7xWAxMCXc0=
+  resolved "https://registry.npmmirror.com/resolve-pathname/-/resolve-pathname-3.0.0.tgz"
+  integrity sha512-C7rARubxI8bXFNB/hqcp/4iUeIXJhJZvFPFPiSPRnhU5UPxzMFIl+2E6yY6c4k9giDJAhtV+enfA+G89N6Csng==
 
 resolve@^1.10.0, resolve@^1.9.0:
   version "1.20.0"
@@ -8998,14 +8989,14 @@ timers-browserify@^2.0.12:
     setimmediate "^1.0.4"
 
 tiny-invariant@^1.0.2:
-  version "1.1.0"
-  resolved "https://registry.nlark.com/tiny-invariant/download/tiny-invariant-1.1.0.tgz"
-  integrity sha1-Y0xfjv3CdxS384bDXmdgmR0jCHU=
+  version "1.3.1"
+  resolved "https://registry.npmmirror.com/tiny-invariant/-/tiny-invariant-1.3.1.tgz"
+  integrity sha512-AD5ih2NlSssTCwsMznbvwMZpJ1cbhkGd2uueNxzv2jDlEeZdU04JQfRnggJQ8DrcVBGjAsCKwFBbDlVNtEMlzw==
 
-tiny-warning@^1.0.0, tiny-warning@^1.0.3:
+tiny-warning@^1.0.0:
   version "1.0.3"
-  resolved "https://registry.nlark.com/tiny-warning/download/tiny-warning-1.0.3.tgz"
-  integrity sha1-lKMNtFPfTGQ9D9VmBg1gqHXYR1Q=
+  resolved "https://registry.npmmirror.com/tiny-warning/-/tiny-warning-1.0.3.tgz"
+  integrity sha512-lBN9zLN/oAf68o3zNXYrdCt1kP8WsiGW8Oo2ka41b2IM5JL/S1CTyX1rW0mb/zSuJun0ZUrDxx4sqvYS2FWzPA==
 
 tmp@^0.0.33:
   version "0.0.33"
@@ -9321,8 +9312,8 @@ validate-npm-package-name@^5.0.0, validate-npm-package-name@5.0.0:
 
 value-equal@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.npm.taobao.org/value-equal/download/value-equal-1.0.1.tgz"
-  integrity sha1-Hgt5THNMXAyt4XnEN9NW2TGjTWw=
+  resolved "https://registry.npmmirror.com/value-equal/-/value-equal-1.0.1.tgz"
+  integrity sha512-NOJ6JZCAWr0zlxZt+xqCHNTEKOsrks2HQd4MqhP1qy4z1SkbEP467eNx6TgDKXMvUOb+OENfJCZwM+16n7fRfw==
 
 vary@~1.1.2:
   version "1.1.2"

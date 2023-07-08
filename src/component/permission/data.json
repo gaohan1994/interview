@@ -1,0 +1,7 @@
+{
+  "name": "小高",
+  "desc": "详情",
+  "token": "token",
+  "routes": [{ "id": 1, "name": "/", "path": "/" }],
+  "roles": [""]
+}
