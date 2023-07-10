@@ -3,23 +3,23 @@ const parser = require("@babel/parser");
 const traverse = require("@babel/traverse").default;
 const { transformFromAst } = require("babel-core");
 
-function getAST (path) {
-  const source = fs.readFileSync(path, 'utf-8');
-  return parser.parse(source, {sourceType: "module"})
+function getAST(path) {
+  const source = fs.readFileSync(path, "utf-8");
+  return parser.parse(source, { sourceType: "module" });
 }
 
-function getDependencies (ast) {
+function getDependencies(ast) {
   const dependencies = [];
   traverse(ast, {
-    ImportDeclaration: ({node}) => {
-      dependencies.push(node.source.value)
-    }
-  })
+    ImportDeclaration: ({ node }) => {
+      dependencies.push(node.source.value);
+    },
+  });
 
   return dependencies;
 }
 
-function transform (ast) {
+function transform(ast) {
   const { code } = transformFromAst(ast, null, {
     presets: ["env"],
   });
@@ -30,4 +30,4 @@ module.exports = {
   getAST,
   getDependencies,
   transform,
-}
+};

@@ -3,53 +3,52 @@ const fs = require("fs");
 const { getAST, getDependencies, transform } = require("./parser");
 
 class Compiler {
-
   entry;
 
   output;
-  
+
   modules = [];
 
-  constructor (packOptions) {
-    const {entry, output} = packOptions;
+  constructor(packOptions) {
+    const { entry, output } = packOptions;
 
     this.entry = entry;
     this.output = output;
   }
 
-  run () {
+  run() {
     const entryModule = this.buildModule(this.entry, true);
     this.modules.push(entryModule);
-    this.modules.forEach((_module) => {
-      _module.dependencies.forEach((dependence) => {
-        this.modules.push(this.buildModule(dependence))
-      })
+    this.modules.forEach(_module => {
+      _module.dependencies.forEach(dependence => {
+        this.modules.push(this.buildModule(dependence));
+      });
     });
 
     this.emitFiles();
   }
 
-  buildModule (filename, isEntry) {
+  buildModule(filename, isEntry) {
     let ast;
 
     if (isEntry) {
       ast = getAST(filename);
     } else {
-      ast = getAST(path.join(process.cwd(), filename))
+      ast = getAST(path.join(process.cwd(), filename));
     }
 
     return {
       filename,
       dependencies: getDependencies(ast),
-      transformCode: transform(ast)
-    }
+      transformCode: transform(ast),
+    };
   }
 
-  emitFiles () {
+  emitFiles() {
     const outputPath = path.join(this.output.path, this.output.filename);
-    let modules = '';
+    let modules = "";
 
-    this.modules.map((_module) => {
+    this.modules.map(_module => {
       modules += `'${_module.filename}' : function(require, module, exports) {${_module.transformCode}},`;
     });
 
@@ -68,4 +67,4 @@ class Compiler {
   }
 }
 
-module.exports = Compiler
+module.exports = Compiler;

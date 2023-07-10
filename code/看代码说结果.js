@@ -85,3 +85,112 @@
     cons.call(result, ...rest);
   }
 }
+
+{
+  var name = "hello";
+  var obj = {
+    name: "hi",
+    props: {
+      name: "javascript",
+      getName: function () {
+        return this.name;
+      },
+    },
+  };
+
+  console.log(obj.props.getName());
+  var test = obj.props.getName;
+  console.log(test());
+
+  // javascript 函数隐式绑定最多只能绑定一层，超过一层由类属性选择器接管，调用函数时，绑定到最近的 obj 上
+  // hello 没有绑定this 默认绑定至 window
+
+  function log() {
+    console.log(a); // 相当于 var a = undefined; b 是函数会提升至作用域顶部
+    console.log(b());
+    var a = 1;
+
+    function b() {
+      return 2;
+    }
+  }
+
+  function log() {
+    function b() {
+      return 2;
+    }
+
+    var a = undefined;
+    console.log(a); // 相当于 var a = undefined; b 是函数会提升至作用域顶部
+    console.log(b());
+    var a = 1;
+  }
+
+  log();
+
+  (function () {
+    var a = (b = 5);
+  })();
+  console.log(b);
+
+  // 假设页面上有6个按钮，点击第一个按钮和第四个按钮分别输出什么，为什么，如果要实现0,3要怎么修改
+  var buttons = document.getElementsByTagName("button");
+  for (var i = 0; i < 6; i++) {
+    buttons[i].addEventListener("click", function () {
+      console.log(i); // 均输出 6
+    });
+  }
+
+  for (var i = 0; i < 6; i++) {
+    (function (index) {
+      buttons[index].addEventListener("click", function () {
+        console.log(index);
+      });
+    })(i);
+  }
+
+  for (let i = 0; i < 6; i++) {
+    buttons[i].addEventListener("click", function () {
+      console.log(i); // 均输出 6
+    });
+  }
+}
+
+{
+  onsole.log(typeof null);
+  console.log(typeof {});
+  console.log(typeof []);
+  console.log(typeof undefined);
+
+  // object
+  // object
+  // object
+  // undefined
+}
+
+{
+  console.log(1);
+  setTimeout(function () {
+    console.log(2);
+  }, 1000);
+  setTimeout(function () {
+    console.log(3);
+  }, 0);
+  Promise.resolve().then(function () {
+    console.log("4");
+  });
+  console.log(5);
+
+  /**
+   * 1 5 4 3 2
+   */
+
+  ["1", "0", "2", "4"].map(parseInt);
+
+  ["1", "0", "2", "4"].map((item, radix) => parseInt(item, radix));
+  // [1, NAN, NAN, NAN]
+}
+
+{
+  // for of和for in的区别，forEach和map的区别
+}
