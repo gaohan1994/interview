@@ -19,6 +19,7 @@ import { InputChinese } from "./pages/input-chinese";
 import { AuthComponentPage, ProtectedPage } from "./pages/auth-component-page";
 import { RouteGuard } from "./component/permission/guard";
 import { Switch } from "react-router-dom/cjs/react-router-dom";
+import { ES6Page } from "./pages/es6";
 
 const Test = React.lazy(() => {
   return new Promise(resolve => {
@@ -56,6 +57,7 @@ export default function AppRouter() {
         <Route path="/state" component={StatePage} />
         <Route path="/input" component={InputChinese} />
         <Route path="/authcomponent" component={AuthComponentPage} />
+        <Route path="/es6" component={ES6Page} />
         <Route
           path="/protected"
           component={() => (
