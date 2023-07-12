@@ -20,6 +20,7 @@ import { AuthComponentPage, ProtectedPage } from "./pages/auth-component-page";
 import { RouteGuard } from "./component/permission/guard";
 import { Switch } from "react-router-dom/cjs/react-router-dom";
 import { ES6Page } from "./pages/es6";
+import { SecurityPage } from "./pages/security";
 
 const Test = React.lazy(() => {
   return new Promise(resolve => {
@@ -43,14 +44,14 @@ export default function AppRouter() {
   return (
     <HashRouter>
       {/* <Route path="/" component={SetTime} /> */}
-      {/* <ReduxPage /> */}
-      {/* <TestPage /> */}
-      {/* <StragePage /> */}
-      {/* <CartDirectionPage /> */}
-      {/* <UploadPage /> */}
-      {/* <ProxyPage /> */}
-      {/* <EventPage /> */}
-      {/* <PromisePage /> */}
+      {/* <ReduxPage />
+      <TestPage />
+      <StragePage />
+      <CartDirectionPage />
+      <UploadPage />
+      <ProxyPage />
+      <EventPage />
+      <PromisePage /> */}
       <Switch>
         <Route path="/cart" component={CartPage} />
         <Route path="/drag" component={DragPage} />
@@ -58,6 +59,7 @@ export default function AppRouter() {
         <Route path="/input" component={InputChinese} />
         <Route path="/authcomponent" component={AuthComponentPage} />
         <Route path="/es6" component={ES6Page} />
+        <Route path="/security" component={SecurityPage} />
         <Route
           path="/protected"
           component={() => (

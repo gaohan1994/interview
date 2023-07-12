@@ -3,10 +3,10 @@
  *
  * @Author: centerm.gaohan
  * @Date: 2021-10-27 15:27:00
- * @Last Modified by: centerm.gaohan
- * @Last Modified time: 2021-10-27 18:40:01
+ * @Last Modified by: Harper.Gao
+ * @Last Modified time: 2023-07-11 12:15:03
  */
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from "react";
 /**
  * 取消 Promise
  *
@@ -25,7 +25,7 @@ class PromiseCancelToken {
    * @memberof PromiseCancelToken
    */
   constructor(cancelExecute) {
-    this.promise = new Promise((resolve) => {
+    this.promise = new Promise(resolve => {
       cancelExecute(resolve);
     });
   }
@@ -61,8 +61,8 @@ class TrackablePromsie extends Promise {
     const notifycations = [];
 
     super((resolve, reject) => {
-      return exector(resolve, reject, (status) => {
-        notifycations.map((notifyFunc) => notifyFunc(status));
+      return exector(resolve, reject, status => {
+        notifycations.map(notifyFunc => notifyFunc(status));
       });
     });
 
@@ -79,7 +79,7 @@ export default function PromisePage() {
   const CancelPromiseButtonRef = useRef(null);
 
   const onHandlePromise = () => {
-    const cancelButton = document.getElementById('cancel-button');
+    const cancelButton = document.getElementById("cancel-button");
     /**
      * 创建 promise 并给其绑定上 cancel 令牌
      */
@@ -89,11 +89,11 @@ export default function PromisePage() {
       }, 2000);
 
       // 创建撤销令牌
-      const cancelToken = new PromiseCancelToken((cancelCallback) => {
+      const cancelToken = new PromiseCancelToken(cancelCallback => {
         // 把撤销回调绑定到button上
-        cancelButton.style.display = 'block';
-        cancelButton.addEventListener('click', () => {
-          console.log('canceled');
+        cancelButton.style.display = "block";
+        cancelButton.addEventListener("click", () => {
+          console.log("canceled");
           cancelCallback();
         });
       });
@@ -101,12 +101,12 @@ export default function PromisePage() {
       // 设置具体的撤销函数
       cancelToken.promise.then(() => {
         id && clearTimeout(id);
-        cancelButton.style.display = 'none';
+        cancelButton.style.display = "none";
       });
     });
 
-    promise.then((res) => {
-      console.log('promise resolve!');
+    promise.then(res => {
+      console.log("promise resolve!");
     });
   };
 
@@ -125,10 +125,10 @@ export default function PromisePage() {
 
       countdown(5);
     });
-    console.log('promise', promise);
+    console.log("promise", promise);
 
-    promise.notify((status) => {
-      console.log('status:', status);
+    promise.notify(status => {
+      console.log("status:", status);
     });
   }, []);
 
@@ -136,11 +136,7 @@ export default function PromisePage() {
     <div>
       promise page
       <button onClick={onHandlePromise}>start promise 10s </button>
-      <button
-        ref={CancelPromiseButtonRef}
-        id="cancel-button"
-        style={{ display: 'none' }}
-      >
+      <button ref={CancelPromiseButtonRef} id="cancel-button" style={{ display: "none" }}>
         cancel promsie
       </button>
     </div>
