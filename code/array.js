@@ -68,6 +68,10 @@ function flat (arr, depth = 1) {
   }
 }
 
+{
+  // 实现 map
+  // https://github.com/yygmind/blog/issues/46
+}
 
 {
   // 用 reduce 实现 map 
